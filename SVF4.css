@@ -1100,3 +1100,74 @@ button:focus {
     width: calc((100% / 4) - 12px); /* 4 slides */
   }
 }
+
+@media (max-width: 768px) {
+  .carrusel-servicios {
+    padding: 1rem;
+    width: 100%;
+  }
+  .carrusel-contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .flecha {
+    align-self: center;
+    display: none; /* quitar flechas en móviles */
+  }
+  .detalle-servicio {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  .paginacion-servicios {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .punto {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .horario-atencion {
+    border-left: 6px solid var(--main-purple);
+    padding: 1rem;
+    margin: 1.5rem 0;
+  }
+  .lista-horario li {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .formulario-contacto {
+    padding: 1rem;
+    width: 100%;
+  }
+  .formulario-contacto input,
+  .formulario-contacto select,
+  .formulario-contacto textarea {
+    font-size: 1rem;
+    padding: 0.6rem;
+  }
+  .btn-enviar {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.8rem;
+    box-sizing: border-box;
+  }
+}
+
+.lista-horario li.hoy {
+  font-weight: bold;
+  color: var(--main-purple); /* o el color que uses */
+  background-color: #f0f0f0;
+  border-left: 4px solid var(--main-purple);
+}
