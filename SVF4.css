@@ -950,15 +950,7 @@ button:focus {
   transform: scale(1.4);
 }
 
-
-
-
-
-
-
-
-
-
+/* Carrusel */
 
 .carousel-container {
       width: 100vw;
@@ -1101,47 +1093,7 @@ button:focus {
 }
 
 @media (max-width: 768px) {
-  /* Carrusel móvil */
-  .carrusel-servicios {
-    padding: 1rem;
-    width: 100%;
-  }
-
-  .carrusel-contenido {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-
-  .slide {
-    width: 100%; /* ocupa todo el ancho en móviles */
-  }
-
-  .flecha {
-    align-self: center;
-    display: none; /* quitar flechas en móviles */
-  }
-
-  .detalle-servicio {
-    max-height: 70vh;
-    overflow-y: auto;
-    padding: 1rem;
-  }
-
-  .paginacion-servicios {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-  }
-
-  .punto {
-    width: 10px;
-    height: 10px;
-  }
-
+ 
   /* Formulario en móviles */
   .formulario-contacto {
     padding: 1rem;
@@ -1177,17 +1129,53 @@ button:focus {
   }
 }
 
-.carrusel-contenido {
-  display: flex;
-  flex-direction: row;         /* para deslizar horizontalmente */
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  gap: 1rem;
-}
+@media (max-width: 768px) {
+  .carrusel-contenido {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+  }
 
-.detalle-servicio {
-  flex: 0 0 100%;
-  scroll-snap-align: start;
-  box-sizing: border-box;
+  .detalle-servicio {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    box-sizing: border-box;
+    padding: 1rem;
+  }
+
+  .flecha {
+    display: none;
+  }
+
+  .slide {
+    width: 100%; /* ocupa todo el ancho en móviles */
+  }
+
+  .flecha {
+    align-self: center;
+    display: none; /* quitar flechas en móviles */
+  }
+
+  .detalle-servicio {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  .paginacion-servicios {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .punto {
+    width: 10px;
+    height: 10px;
+  }
+
 }
