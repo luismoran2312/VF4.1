@@ -962,13 +962,14 @@ button:focus {
 
 .carousel-container {
       width: 100vw;
-      height: 160px;
+      height: 140px; /* Ancho */
       overflow: hidden;
-      background: linear-gradient(135deg, #1f1c2c, #928dab);
+     /* background: linear-gradient(135deg, #1f1c2c, #928dab);*/
       box-shadow:
         0 4px 15px rgba(146, 137, 171, 0.5),
         inset 0 0 40px rgba(255, 255, 255, 0.1);
       position: relative;
+      margin-top: 15px; /* Ajusta el valor según cuánto quieras separarlo */
     }
 
     .slides-wrapper {
@@ -1178,34 +1179,15 @@ button:focus {
 
 .carrusel-contenido {
   display: flex;
+  flex-direction: row;         /* para deslizar horizontalmente */
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   gap: 1rem;
-  padding-bottom: 1rem;
 }
 
-.slide {
-  flex: 0 0 auto;
+.detalle-servicio {
+  flex: 0 0 100%;
   scroll-snap-align: start;
-  width: 80%; /* O ajusta como quieras */
-  min-width: 250px;
-}
-
-@media (max-width: 768px) {
-  .carrusel-contenido {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    flex-wrap: nowrap;
-  }
-
-  .slide {
-    flex: 0 0 80%; /* o 100% si quieres una por pantalla */
-    scroll-snap-align: start;
-  }
-
-  .flecha {
-    display: none;
-  }
+  box-sizing: border-box;
 }
