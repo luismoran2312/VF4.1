@@ -1134,44 +1134,70 @@ button:focus {
 }
 
 @media (max-width: 768px) {
-  .carrusel-servicios {
-    overflow: hidden;
-  }
-
-  .carrusel-contenido {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    gap: 1rem;
-  }
-
-  .detalle-servicio {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-    box-sizing: border-box;
-    padding: 1rem;
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-
-  .flecha {
-    display: none; /* oculta flechas en móvil */
-  }
-
+  /* 🚫 Oculta el carrusel completo en móviles (incluye flechas y puntos) */
+  .carrusel-servicios,
+  .flecha,
   .paginacion-servicios {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 8px;
+    display: none !important;
   }
 
-  .punto {
-    width: 10px;
-    height: 10px;
-    background-color: #ccc;
-    border-radius: 50%;
+  /* 📱 Estilo vertical para tarjetas en móviles */
+  .tarjetas-servicios {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .tarjeta {
+    width: 100%;
+    max-width: 90%;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+  }
+
+  .icono-servicio {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #007BFF;
+  }
+
+  .btn-servicio {
+    margin-top: 1rem;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* 📂 Contenido desplegable */
+  .detalle-servicio {
+    display: none;
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  .detalle-servicio.activo {
+    display: block;
+  }
+
+  .detalle-servicio h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .detalle-servicio ul {
+    padding-left: 1.2rem;
+    margin: 0;
   }
 }
+

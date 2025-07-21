@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const isDesktop = window.innerWidth > 768;
 
-  // === ACTIVACIÓN DE BOTONES DEL MENÚ EN ESCRITORIO ===
+  // --- ACTIVACIÓN DE BOTONES DEL MENÚ EN ESCRITORIO ---
   if (isDesktop) {
     const menuButtons = document.querySelectorAll('.nav-buttons a.btn-rounded');
     const sections = [];
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // === FORMULARIO DE CONTACTO ===
+  // --- FORMULARIO DE CONTACTO ---
   const btnCorreo = document.getElementById('btn-correo');
   const form = document.getElementById('formulario-contacto');
   if (btnCorreo && form) {
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === HORARIO DEL DÍA ACTUAL ===
+  // --- HORARIO DEL DÍA ACTUAL ---
   const diaSemana = new Date().getDay();
   const elementos = document.querySelectorAll('.lista-horario li[data-dia]');
   elementos.forEach(el => {
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // === CARRUSEL DE SERVICIOS ===
+  // --- CARRUSEL DE SERVICIOS ---
   const botonesServicio = document.querySelectorAll('.btn-servicio');
   const carrusel = document.querySelector('.carrusel-servicios');
   const secciones = Array.from(document.querySelectorAll('.detalle-servicio'));
@@ -87,14 +87,53 @@ document.addEventListener('DOMContentLoaded', () => {
     secciones.forEach((sec, i) => {
       sec.classList.toggle('activa', i === indiceActual);
       sec.classList.toggle('oculto', i !== indiceActual);
+      // En móvil además ocultamos todas excepto la activa (para evitar mostrar todas)
+      if (window.innerWidth <= 768) {
+        sec.style.display = (i === indiceActual) ? 'block' : 'none';
+      }
     });
     puntos.forEach((p, i) => {
       p.classList.toggle('activo', i === indiceActual);
     });
   }
 
-  // Crear puntos dinámicos
+  // Detectar si estamos en móvil o escritorio al cargar y resize
+  function configurarCarrusel() {
+    const esDesktop = window.innerWidth > 768;
+
+    if (esDesktop) {
+      // Mostrar carrusel, paginación y flechas
+      if (carrusel) carrusel.classList.remove('oculto');
+      if (paginacion) paginacion.style.display = 'flex';
+      if (flechaIzquierda) flechaIzquierda.style.display = 'block';
+      if (flechaDerecha) flechaDerecha.style.display = 'block';
+
+      // Mostrar solo la sección activa
+      secciones.forEach((sec, i) => {
+        sec.classList.remove('activo');
+        sec.classList.remove('oculto');
+        sec.style.display = (i === indiceActual) ? 'block' : 'none';
+      });
+
+    } else {
+      // Móvil: ocultar carrusel y paginación, flechas
+      if (carrusel) carrusel.classList.add('oculto');
+      if (paginacion) paginacion.style.display = 'none';
+      if (flechaIzquierda) flechaIzquierda.style.display = 'none';
+      if (flechaDerecha) flechaDerecha.style.display = 'none';
+
+      // Ocultar todas las secciones por defecto
+      secciones.forEach(sec => {
+        sec.classList.remove('activa');
+        sec.classList.add('oculto');
+        sec.style.display = 'none';
+      });
+    }
+  }
+
+  // Crear puntos dinámicos (solo una vez)
   if (paginacion && secciones.length > 0) {
+    paginacion.innerHTML = ''; // limpiar para evitar duplicados
     secciones.forEach((_, i) => {
       const punto = document.createElement('span');
       punto.classList.add('punto');
@@ -112,25 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Botones "Ver más"
-  botonesServicio.forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      const targetId = btn.dataset.target;
-      const idx = secciones.findIndex(sec => sec.id === targetId);
-      if (idx !== -1) {
-        indiceActual = idx;
-        cambiarSeccion();
-        carrusel.classList.remove('oculto');
-
-        if (window.innerWidth <= 768) {
-          if (menuNav) menuNav.classList.remove('visible');
-          if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
-        }
-      }
-    });
-  });
-
   // Flechas
   if (flechaIzquierda && flechaDerecha) {
     flechaIzquierda.addEventListener('click', () => {
@@ -144,32 +164,83 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Mostrar primera sección por defecto
+  // Botones "Ver más"
+  botonesServicio.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = btn.dataset.target;
+      const idx = secciones.findIndex(sec => sec.id === targetId);
+      if (idx !== -1) {
+        if (window.innerWidth > 768) {
+          // Escritorio: mostrar carrusel y sección correspondiente
+          indiceActual = idx;
+          cambiarSeccion();
+          if (carrusel) carrusel.classList.remove('oculto');
+        } else {
+          // Móvil: alternar visibilidad debajo de la tarjeta (sin carrusel)
+          const targetSection = secciones[idx];
+          if (!targetSection) return;
+
+          // Ocultar todas menos esta
+          secciones.forEach(sec => {
+            if (sec !== targetSection) {
+              sec.classList.remove('activo');
+              sec.classList.add('oculto');
+              sec.style.display = 'none';
+            }
+          });
+
+          // Alternar la visibilidad del target
+          const estaVisible = targetSection.classList.contains('activo');
+          if (estaVisible) {
+            targetSection.classList.remove('activo');
+            targetSection.classList.add('oculto');
+            targetSection.style.display = 'none';
+          } else {
+            targetSection.classList.add('activo');
+            targetSection.classList.remove('oculto');
+            targetSection.style.display = 'block';
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }
+    });
+  });
+
+  // Inicializamos estado según tamaño
+  configurarCarrusel();
   cambiarSeccion();
 
-  // CLIC EN SUBMENÚ DE SERVICIOS (HEADER)
+  // Actualizar al redimensionar ventana
+  window.addEventListener('resize', () => {
+    configurarCarrusel();
+    cambiarSeccion();
+  });
+
+  // --- CLIC EN SUBMENÚ DE SERVICIOS (HEADER) ---
   const submenuLinks = document.querySelectorAll('.dropdown-content a');
   submenuLinks.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const targetId = link.getAttribute('href').substring(1);
-      const targetSection = document.getElementById(targetId);
       const idx = secciones.findIndex(sec => sec.id === targetId);
 
       if (idx !== -1) {
-        carrusel.classList.remove('oculto');
+        if (carrusel) carrusel.classList.remove('oculto');
         indiceActual = idx;
         cambiarSeccion();
 
         // Scroll al carrusel (no solo a la sección)
         setTimeout(() => {
-          carrusel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (carrusel) {
+            carrusel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
         }, 100);
       }
     });
   });
 
-  // === SUBMENÚ EN MÓVIL ===
+  // --- SUBMENÚ EN MÓVIL ---
   const dropdownToggle = document.querySelector('.dropdown-toggle');
   const dropdown = document.querySelector('.dropdown');
   if (dropdownToggle && dropdown) {
@@ -183,32 +254,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === CERRAR CARRUSEL SI HACES CLIC FUERA DE SU CONTENIDO ===
+  // --- CERRAR CARRUSEL SI HACES CLIC FUERA DE SU CONTENIDO ---
   const carruselContenido = document.querySelector('.carrusel-contenido');
   if (carrusel && carruselContenido) {
+    carruselContenido.addEventListener('click', e => e.stopPropagation());
 
-    // Evitar cierre si haces clic dentro del contenido
-    carruselContenido.addEventListener('click', e => {
-      e.stopPropagation();
-    });
-
-    // Cerrar si haces clic fuera del contenido
     document.addEventListener('click', e => {
       if (!carrusel.classList.contains('oculto')) {
         carrusel.classList.add('oculto');
       }
     });
 
-    // Evita que la apertura del carrusel dispare el cierre
     const botonesAbrir = document.querySelectorAll('.btn-servicio, .dropdown-content a');
     botonesAbrir.forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.stopPropagation(); // <- esto evita el cierre inmediato
-      });
+      btn.addEventListener('click', e => e.stopPropagation());
     });
   }
 
-  // === ANIMACIÓN DE HEXÁGONOS ===
+  // --- ANIMACIÓN DE HEXÁGONOS ---
   const hexagons = Array.from(document.querySelectorAll('.hexagon'));
 
   function randomBetween(min, max) {
@@ -263,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateHexagons, 10000);
   });
 
-  // === CARRUSEL DECORATIVO (AUTOMÁTICO, SIN FLECHAS) ===
+  // --- CARRUSEL DECORATIVO (AUTOMÁTICO, SIN FLECHAS) ---
   const slidesContainer = document.getElementById('slides');
   if (slidesContainer) {
     const gap = 16; // debe coincidir con CSS gap
