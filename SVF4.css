@@ -1084,6 +1084,10 @@ button:focus {
   .slide {
     width: calc((100% / 3) - 10.67px); /* 3 slides - gap repartido */
   }
+
+  /*.slide {
+    width: 100%; /* ocupa todo el ancho en móviles *
+  }*/
 }
 
 @media (min-width: 1200px) {
@@ -1130,6 +1134,10 @@ button:focus {
 }
 
 @media (max-width: 768px) {
+  .carrusel-servicios {
+    overflow: hidden;
+  }
+
   .carrusel-contenido {
     display: flex;
     flex-direction: row;
@@ -1144,25 +1152,12 @@ button:focus {
     scroll-snap-align: start;
     box-sizing: border-box;
     padding: 1rem;
-  }
-
-  .flecha {
-    display: none;
-  }
-
-  .slide {
-    width: 100%; /* ocupa todo el ancho en móviles */
-  }
-
-  .flecha {
-    align-self: center;
-    display: none; /* quitar flechas en móviles */
-  }
-
-  .detalle-servicio {
     max-height: 70vh;
     overflow-y: auto;
-    padding: 1rem;
+  }
+
+  .flecha {
+    display: none; /* oculta flechas en móvil */
   }
 
   .paginacion-servicios {
@@ -1176,6 +1171,7 @@ button:focus {
   .punto {
     width: 10px;
     height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
   }
-
 }
