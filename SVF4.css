@@ -1175,3 +1175,37 @@ button:focus {
     padding: 0.4rem 0.8rem;
   }
 }
+
+.carrusel-contenido {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+
+.slide {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 80%; /* O ajusta como quieras */
+  min-width: 250px;
+}
+
+@media (max-width: 768px) {
+  .carrusel-contenido {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+  }
+
+  .slide {
+    flex: 0 0 80%; /* o 100% si quieres una por pantalla */
+    scroll-snap-align: start;
+  }
+
+  .flecha {
+    display: none;
+  }
+}
